@@ -11,19 +11,20 @@ class MovingAverageCrossover:
 
         data = df.copy()
 
-        short_col = f"{price_col}_SMA_short"
-        long_col = f"{price_col}_SMA_long"
-        signal_col = f"{price_col}_Signal"
+        for col in price_col:
+            short_col = f"{col}_SMA_short"
+            long_col = f"{col}_SMA_long"
+            signal_col = f"{col}_Signal"
 
-        data[short_col] = data[price_col].rolling(window=self.short_window).mean()
-        data[long_col] = data[price_col].rolling(window=self.long_window).mean()
+            data[short_col] = data[col].rolling(window=self.short_window).mean()
+            data[long_col] = data[col].rolling(window=self.long_window).mean()
 
-        #create signals to indicate -
-        # to buy : +1, to sell : -1, to hold : 0
+            #create signals to indicate -
+            # to buy : +1, to sell : -1, to hold : 0
 
-        data["Signals"] = 0
-        data.loc[data[short_col] > data[long_col], signal_col] = 1
-        data.loc[data[short_col] < data[long_col], signal_col] = -1
+            data["Signals"] = 0
+            data.loc[data[short_col] > data[long_col], signal_col] = 1
+            data.loc[data[short_col] < data[long_col], signal_col] = -1
 
         return data
 
