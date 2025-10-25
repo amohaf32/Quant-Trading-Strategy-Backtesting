@@ -1,0 +1,157 @@
+### Quantitative Trading Strategy Backtesting
+
+Project Scope
+
+- Goal: Build & backtest 2–3 basic trading strategies on equities/FX.
+- Deliverables: Python backtester + performance metrics + small dashboard/report.
+- Highlight for CV: “Built and backtested trading strategies in Python, evaluated risk-adjusted returns using Sharpe Ratio, Max Drawdown, and Value-at-Risk.”
+
+Tools & Libraries
+
+- Core Language: Python
+- Libraries:
+
+    - pandas (data manipulation)
+    - numpy (math ops)
+    - matplotlib / seaborn / plotly (visualizations)
+    - yfinance (free data import)
+    - backtrader or zipline (optional backtesting frameworks — you can also code from scratch)
+    - arch (for volatility modeling, if you extend later)
+
+- Excel/VBA Add-on:
+
+    - Use Excel for reporting dashboards (PnL curves, summary stats).
+    - Use VBA to automate tasks like “import latest backtest results and refresh charts.”
+    - This way, you can say: “Integrated Python backtesting pipeline with Excel dashboards via VBA automation for trader-friendly reporting.”
+
+Project Workflow
+
+Data Collection - Done
+
+    Pull historical daily/5-min prices (e.g., AAPL, SPY, EUR/USD).
+    Clean missing data.
+
+Feature engineering (before strategy implementation)- Done
+
+    The feature engineering is what is required for developing trading strategies.
+    Over here I will create useful indicators and features that will help strategy make buy/sell decisions.
+    Essentially done after the pulled data from the source is cleaned and saved to csv(above step - Data Collection).
+
+Strategy Implementation (Examples) - Done
+
+    Moving Average Crossover (e.g., 50/200 SMA).
+    Momentum Strategy (buy winners, short losers over lookback window).
+    Mean Reversion (Bollinger bands or RSI thresholds) done both
+
+Backtesting Logic - Done
+
+    Track portfolio PnL, cash, positions.
+    Include transaction costs (important for realism).
+
+Performance Evaluation - Ongoing
+
+    Metrics: Sharpe Ratio, Sorting Ratio, Max Drawdown, CAGR.
+    Risk: Value-at-Risk (VaR), volatility of returns.
+
+Visualization & Reporting
+
+    Equity curve (portfolio value over time).
+    Drawdown plot.
+    Performance table.
+
+(Optional) Excel/VBA Integration
+
+    Export Python results (PnL, metrics) to CSV.
+    Use VBA macro to auto-update charts/summary when new file is dropped.
+    Traders love Excel → you’ll show adaptability.
+
+    
+
+
+
+
+
+
+
+    file directory 
+
+    quant-backtesting/
+    │
+    ├── Data/                           # Raw & processed data
+    │   ├── __init__.py
+    │   ├── data_collection.ipynb       # Collecting, Processing and Cleaning data
+    │   ├── feature_engineering.ipynb   # Cleaned data ready for feature engineering for the strategies
+    │   ├── market_data_cleaned.csv     # Cleaned data of csv file market_data_not_cleaned.csv
+    │   ├── market_data_features.csv    # feature engineering data taken from market_data_cleaned.csv
+    │   └── market_data_not_cleaned.csv # Collected data in csv file from yfinance (not cleaned)
+    │
+    ├── Strategy/                # Strategy logic lives here
+    │   ├── __init__.py
+    │   ├── moving_average.py      # Moving Average Crossover
+    │   ├── momentum.py            # Momentum strategy
+    │   └── mean_reversion.py      # Bollinger Bands(only for now)/ RSI strategy (write code later)
+    │
+    ├── Backtester/                # Core backtesting engine
+    │   ├── __init__.py
+    │   ├── portfolio.py           # Tracks positions, PnL, cash
+    │   ├── metrics.py             # Sharpe, Drawdown, VaR, etc.
+    │   └── backtest.py            # Runs simulation on strategy + data
+    │
+    ├── Reports/                   # Outputs
+    │   ├── __init__.py
+    │   ├── equity_curves/         # PnL plots
+    │   ├── metrics_tables/        # CSV/Excel exports
+    │   └── dashboards/            # VBA-powered Excel dashboards
+    │
+    ├── Notebooks/                 # Jupyter notebooks for exploration
+    │   ├── __init__.py
+    │   ├── data_exploration.ipynb # Look at raw data
+    │   ├── strategy_tests.ipynb   # Prototype logic here
+    │   └── results_analysis.ipynb # Visualize/analyze results
+    │
+    ├── main.py                    # Entry point (runs backtests for all strategies)
+    ├── requirements.txt           # Python dependencies
+    ├── README.md                  # Project explanation (CV + GitHub)
+    └── .gitignore                 # Ignore cache, venv, large data files
+
+
+file directory
+
+    quant-backtesting/
+    │
+    ├── Data/                           # Raw & processed data (completed)
+    │   ├── __init__.py
+    │   ├── data_collection.ipynb       # Collecting, Processing and Cleaning data
+    │   ├── feature_engineering.ipynb   # Cleaned data ready for feature engineering for the strategies
+    │   ├── market_data_cleaned.csv     # Cleaned data of csv file market_data_not_cleaned.csv
+    │   ├── market_data_features.csv    # feature engineering data taken from market_data_cleaned.csv
+    │   └── market_data_not_cleaned.csv # Collected data in csv file from yfinance (not cleaned)
+    │
+    ├── Strategy/                # Strategy logic lives here (completed)
+    │   ├── __init__.py
+    │   ├── moving_average.py      # Moving Average Crossover
+    │   ├── momentum.py            # Momentum strategy
+    │   └── mean_reversion.py      # Bollinger Bands(only)/ RSI strategy (write later)
+    │
+    ├── Backtester/                # Core backtesting engine (ongoing)
+    │   ├── __init__.py
+    │   ├── portfolio.py           # Tracks positions, PnL, cash (yet to write a test code for this)
+    │   ├── metrics.py             # Sharpe, Drawdown, VaR, etc.
+    │   └── backtest.py            # Runs simulation on strategy + data (yet to write a test code for this)
+    │
+    ├── Reports/                   # Outputs (currently empty dir and files)
+    │   ├── __init__.py
+    │   ├── equity_curves/         # PnL plots (currently empty dir and no files)
+    │   ├── metrics_tables/        # CSV/Excel exports (currently empty dir and no files)
+    │   └── dashboards/            # VBA-powered Excel dashboards (currently empty dir and no files)
+    │
+    ├── Notebooks/                 # Jupyter notebooks for exploration
+    │   ├── __init__.py
+    │   ├── data_exploration.ipynb # Look at raw data (currently empty files)
+    │   ├── strategy_tests.ipynb   # Prototype logic here (completed tests for all 3 strategies)
+    │   └── results_analysis.ipynb # Visualize/analyze results (currently empty files)
+    │
+    ├── main.py                    # Entry point (runs backtests for all strategies) (currently empty files)
+    ├── requirements.txt           # Python dependencies
+    ├── README.md                  # Project explanation (CV + GitHub)
+    └── .gitignore                 # Ignore cache, venv, large data files
