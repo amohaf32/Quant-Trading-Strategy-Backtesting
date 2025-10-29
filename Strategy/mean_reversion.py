@@ -51,13 +51,13 @@ class BollingerMeanReversionStrategy:
         # df[['lower_band', 'upper_band']] = df[['lower_band', 'upper_band']].align(price_series, axis=0)
 
         #generting the trading signals
-        # df['signals'] = np.where(df[price_col] < df['lower_band'],1,
-        #                          np.where(df[price_col] > df['upper_band'],-1,0))
+        df['signals'] = np.where(df[price_col] < df['lower_band'],1,
+                                 np.where(df[price_col] > df['upper_band'],-1,0))
 
-        df[f'{price_col}_Signal'] = np.where(
-            price_series < df['lower_band'], 1,
-            np.where(price_series > df['upper_band'], -1, 0)
-        )
+        # df[f'{price_col}_Signal'] = np.where(
+        #     price_series < df['lower_band'], 1,
+        #     np.where(price_series > df['upper_band'], -1, 0)
+        # )
 
         #Buy (1) when price < lower band, Sell (-1) when price > upper band, else hold (0).
 
