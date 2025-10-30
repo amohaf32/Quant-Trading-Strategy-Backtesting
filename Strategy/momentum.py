@@ -33,6 +33,8 @@ class MomentumStrategy:
             price_col = [c for c in df.columns if c.endswith('.Close')]
             if not price_col:
                 raise KeyError("No '.Close' column found in dataframe.")
+        elif isinstance(price_col, str):
+            price_col = [price_col]  # convert single string to list
 
 
         for col in price_col:
@@ -46,4 +48,4 @@ class MomentumStrategy:
             df[signal_col] = np.where(df[momentum_col] > 0, 1, -1)
 
         return df
-#this code something is not right even though the code is passing and giving what i need in the test - NEED TO CHECK AGAIN
+

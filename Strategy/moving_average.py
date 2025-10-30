@@ -11,7 +11,12 @@ class MovingAverageCrossover:
 
         data = df.copy()
 
-        for col in price_col:
+        if isinstance(price_col, str):
+            price_cols = [price_col]
+        else:
+            price_cols = price_col
+
+        for col in price_cols:
             short_col = f"{col}_SMA_short"
             long_col = f"{col}_SMA_long"
             signal_col = f"{col}_Signal"
