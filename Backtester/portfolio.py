@@ -60,7 +60,7 @@ class Portfolio:
         # sell if you hold that ticker.
         elif signal == -1 and ticker in self.positions:
             units = self.positions[ticker]
-            revenue = units // (price * (1 - self.transaction_cost))
+            revenue = units * price * (1 - self.transaction_cost)
             #Calculates proceeds received by selling the units after transaction cost on the sell side.
             # 1 - transaction_cost reduces revenue by the fee fraction.
             self.cash += revenue # adds the sales proceed to the available cash

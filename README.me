@@ -67,11 +67,20 @@ Design, implement, and evaluate 2–3 core trading strategies with proper risk a
   - Value-at-Risk (VaR)
 - Comprehensive performance reporting for each strategy.
 
-### 6. Visualization & Reporting 🚧 *(In Progress)*
-- Planned visual outputs:
-  - Portfolio equity curve
-  - Drawdown plot
-  - Performance summary table
+### 6. Visualization & Reporting ✅
+- Generated artifacts (saved under `Reports/outputs/`):
+  - `equity_curve.png` — Portfolio equity curve
+  - `drawdown.png` — Drawdown over time
+  - `performance_summary.csv` — Key performance metrics (Sharpe, Sortino, MaxDD, Volatility, Total Return)
+  - `trade_log.csv` — Executed trades log
+
+Run via:
+
+```bash
+python main.py
+```
+
+The script will run a backtest and save the plots and CSV reports to `Reports/outputs/`.
 
 ---
 

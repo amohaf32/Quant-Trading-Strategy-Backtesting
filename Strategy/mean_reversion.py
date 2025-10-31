@@ -24,42 +24,29 @@ class BollingerMeanReversionStrategy:
         self.window = window
         self.num_std = num_std
 
-    def generate_signals(self, df, price_col='EURUSD=X_Close'):
+    def generate_signals(self, df, price_col='EURUSD=X.Close'):
         df = df.copy()
-
-        # # Auto-detect price column if not specified
-        # if price_col is None:
-        #     price_col = [c for c in df.columns if c.endswith('.Close')]
-        #     if not price_col:
-        #         raise KeyError("No '.Close' column found in dataframe.")
 
         if price_col not in df.columns:
             raise ValueError(f"Column '{price_col}' not found in dataframe")
 
         price_series = df[price_col].astype(float)
 
-        # computing the rolling mean and the standard deviation
-        df['rolling_mean'] = price_series.rolling(window=self.window).mean() #Computes moving average (the “mean”)
-        df['rolling_std'] = price_series.rolling(window=self.window).std()
+        # Compute Bollinger bands
+        rolling_mean = price_series.rolling(window=self.window).mean()
+        rolling_std = price_series.rolling(window=self.window).std()
+        upper_band = rolling_mean + (self.num_std * rolling_std)
+        lower_band = rolling_mean - (self.num_std * rolling_std)
 
-        #computing the upper and the lower Bollinger Bands
-        #Bollinger Band thresholds(+2 or -2 std by default).
-        df['upper_band'] = df['rolling_mean'] + (self.num_std * df['rolling_std'])
-        df['lower_band'] = df['rolling_mean'] - (self.num_std * df['rolling_std'])
+        df[f'{price_col}_rolling_mean'] = rolling_mean
+        df[f'{price_col}_rolling_std'] = rolling_std
+        df[f'{price_col}_upper_band'] = upper_band
+        df[f'{price_col}_lower_band'] = lower_band
 
-        # align all relevant columns to prevent shape issues
-        # df[['lower_band', 'upper_band']] = df[['lower_band', 'upper_band']].align(price_series, axis=0)
-
-        #generting the trading signals
-        df['signals'] = np.where(df[price_col] < df['lower_band'],1,
-                                 np.where(df[price_col] > df['upper_band'],-1,0))
-
-        # df[f'{price_col}_Signal'] = np.where(
-        #     price_series < df['lower_band'], 1,
-        #     np.where(price_series > df['upper_band'], -1, 0)
-        # )
-
-        #Buy (1) when price < lower band, Sell (-1) when price > upper band, else hold (0).
+        signal_col = f"{price_col}_Signal"
+        df[signal_col] = 0
+        df.loc[price_series < lower_band, signal_col] = 1
+        df.loc[price_series > upper_band, signal_col] = -1
 
         return df
 

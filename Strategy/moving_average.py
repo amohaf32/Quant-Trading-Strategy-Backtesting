@@ -24,10 +24,8 @@ class MovingAverageCrossover:
             data[short_col] = data[col].rolling(window=self.short_window).mean()
             data[long_col] = data[col].rolling(window=self.long_window).mean()
 
-            #create signals to indicate -
-            # to buy : +1, to sell : -1, to hold : 0
-
-            data["Signals"] = 0
+            # Initialize signals as 0, then set +/-1 based on crossover
+            data[signal_col] = 0
             data.loc[data[short_col] > data[long_col], signal_col] = 1
             data.loc[data[short_col] < data[long_col], signal_col] = -1
 

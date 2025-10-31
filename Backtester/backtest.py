@@ -5,11 +5,19 @@ Does the loop:
     - updates portfolio each day
     - stores daily results
 """
-
-import Backtester.portfolio as portfolio
+try:
+    import Backtester.portfolio as portfolio
+except ModuleNotFoundError:
+    # Allow running this file directly by adding the project root to sys.path
+    import sys
+    from pathlib import Path
+    project_root = Path(__file__).resolve().parents[1]
+    if str(project_root) not in sys.path:
+        sys.path.append(str(project_root))
+    import Backtester.portfolio as portfolio
 
 class Backtest:
-    def __init__(self, data, strategy,ticker='EURUSD=X', initial_capital = 100000):
+    def __init__(self, data, strategy, ticker='EURUSD=X', initial_capital=100000, transaction_cost=0.001):
         """
         Runs a backtest for a given strategy and dataset.
         Args:
@@ -21,7 +29,7 @@ class Backtest:
         self.data = data.copy()
         self.strategy = strategy
         self.ticker = ticker
-        self.portfolio = portfolio.Portfolio(initial_capital=initial_capital)
+        self.portfolio = portfolio.Portfolio(initial_capital=initial_capital, transaction_cost=transaction_cost)
         self.results = None
 
     def run(self):
